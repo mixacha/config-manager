@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+
+import etcd
+c = etcd.Client(host='testlab', port=4001)
+conf = c.read('/', recursive = True, sorted = True )
+for child in conf.children:
+ print '%s:%s' % (child.key,child.value)
