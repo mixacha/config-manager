@@ -1,7 +1,23 @@
 #!/usr/bin/env python
 
 import etcd
-c = etcd.Client(host='testlab', port=4001)
-conf = c.read('/', recursive = True, sorted = True )
-  for child in conf.children:
-      print '%s:%s' % (child.key,child.value)
+c = etcd.Client(host='hive.linuxhub.co', port=4001)
+conf = c.read('/mysql_config', recursive = True)
+for child in conf.children:
+    print 'Startup value: %s:%s' % (child.key,child.value)
+
+while True:
+ for event in c.ethernal_watch('/mysql_config/host'):
+    if event.value:
+       print 'New value /mysql_config/host: %s' % event.value
+       break
+
+ for event in c.ethernal_watch('/mysql_config/user'):
+    if event.value:
+       print 'New value /mysql_config/user: %s' % event.value
+       break
+
+ for event in c.ethernal_watch('/mysql_config/pwd'):
+    if event.value:
+       print 'New value /mysql_config/pwd: %s' % event.value
+       break
