@@ -1,0 +1,13 @@
+---
+- hosts: droplets 
+  roles:
+     - angstwad.docker_ubuntu
+  tasks:
+     - name: Install nginx web server
+       apt: pkg=nginx state=installed update_cache=true
+     - name: Switch nginx conf
+       template: src=confs/nginx_proxy.conf dest=/etc/nginx/nginx.conf
+       notify: restart nginx
+  handlers:
+     - name: restart nginx
+       service: name=nginx state=restarted

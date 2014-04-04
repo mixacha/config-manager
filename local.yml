@@ -1,0 +1,7 @@
+  hosts: localhost
+  roles:
+     - angstwad.docker_ubuntu
+  tasks:
+     - name: run test container
+       docker: image=centos command="/bin/bash"
+
